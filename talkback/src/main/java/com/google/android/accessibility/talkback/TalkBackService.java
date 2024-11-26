@@ -87,7 +87,6 @@ import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme
 import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme.BrailleImeForTalkBackProvider;
 import com.google.android.accessibility.brailleime.BrailleIme;
 import com.google.android.accessibility.talkback.Feedback.DeviceInfo.Action;
-import com.google.android.accessibility.talkback.PrimesController.TimerAction;
 import com.google.android.accessibility.talkback.TalkBackExitController.TrainingState;
 import com.google.android.accessibility.talkback.actor.AutoScrollActor;
 import com.google.android.accessibility.talkback.actor.DimScreenActor;
@@ -657,7 +656,6 @@ public class TalkBackService extends AccessibilityService
 
   private GestureShortcutMapping gestureShortcutMapping;
   private NodeMenuRuleProcessor nodeMenuRuleProcessor;
-  private PrimesController primesController;
   private SpeechLanguage speechLanguage;
   private ImageCaptioner imageCaptioner;
   private TalkBackExitController talkBackExitController;
@@ -982,13 +980,6 @@ public class TalkBackService extends AccessibilityService
   protected final boolean onKeyEvent(KeyEvent keyEvent) {
     boolean result = onKeyEventInternal(keyEvent);
 
-    if (primesController != null) {
-      // We use keyEvent.getEventTime() as starting point because we don't know how long the
-      // message was enqueued before onKeyEvent() has started.
-      primesController.recordDuration(
-          TimerAction.KEY_EVENT, keyEvent.getEventTime(), SystemClock.uptimeMillis());
-    }
-
     return result;
   }
 
@@ -1121,7 +1112,6 @@ public class TalkBackService extends AccessibilityService
     }
     Performance perf = Performance.getInstance();
     EventId eventId = perf.onGestureEventReceived(gestureId);
-    primesController.startTimer(TimerAction.GESTURE_EVENT);
 
     switch (gestureId) {
       case GESTURE_FAKED_SPLIT_TYPING:
@@ -1152,7 +1142,6 @@ public class TalkBackService extends AccessibilityService
     // Preceding event handling frequently initiates a framework action, which in turn
     // cascades a focus event, which in turn generates feedback.
     perf.onHandlerDone(eventId);
-    primesController.stopTimer(TimerAction.GESTURE_EVENT);
     return true;
   }
 
@@ -1340,15 +1329,12 @@ public class TalkBackService extends AccessibilityService
   @Override
   protected void onServiceConnected() {
     LogUtils.v(TAG, "System bound to service.");
-    primesController = new PrimesController();
-    primesController.initialize(getApplication());
-    primesController.startTimer(TimerAction.START_UP);
 
     SharedPreferencesUtils.migrateSharedPreferences(this);
     prefs = SharedPreferencesUtils.getSharedPreferences(this);
 
     if (FeatureFlagReader.logEventBasedLatency(getBaseContext())) {
-      eventLatencyLogger = new EventLatencyLogger(primesController, getApplicationContext(), prefs);
+      eventLatencyLogger = new EventLatencyLogger(getApplicationContext(), prefs);
     }
 
     if (FeatureFlagReader.usePeriodAsSeparator(getBaseContext())) {
@@ -1435,8 +1421,6 @@ public class TalkBackService extends AccessibilityService
     Intent intent = new Intent(INTENT_TALKBACK_ENABLED);
     intent.setPackage(getPackageName());
     sendBroadcast(intent);
-
-    primesController.stopTimer(TimerAction.START_UP);
   }
 
   /**
@@ -1596,7 +1580,7 @@ public class TalkBackService extends AccessibilityService
 
     imageCaptioner =
         new ImageCaptioner(
-            this, imageCaptionStorage, accessibilityFocusMonitor, analytics, primesController);
+            this, imageCaptionStorage, accessibilityFocusMonitor, analytics);
     GeminiFunctionUtils.setImageCaptioner(imageCaptioner);
 
     // TODO: ScreenState should be passed through pipeline.
@@ -1670,7 +1654,6 @@ public class TalkBackService extends AccessibilityService
         new GeminiActor(
             this,
             analytics,
-            primesController,
             GeminiConfiguration.useAratea(this)
                 ? new ArateaEndpoint(this, getApplication())
                 : new GeminiRestEndpoint(
@@ -1720,7 +1703,7 @@ public class TalkBackService extends AccessibilityService
                 scroller,
                 focuser,
                 new FocusActorForScreenStateChange(
-                    this, inputMethodMonitor, focusFinder, primesController),
+                    this, inputMethodMonitor, focusFinder),
                 new FocusActorForTapAndTouchExploration(),
                 directionNavigationActor,
                 new SearchScreenNodeStrategy(/* observer= */ null, labelManager),
@@ -1986,7 +1969,6 @@ public class TalkBackService extends AccessibilityService
               /* service= */ this,
               accessibilityFocusMonitor,
               inputMethodMonitor,
-              primesController,
               menuManager,
               pipeline.getFeedbackReturner(),
               TvNavigation.useHandlerThread(/* context= */ this));
@@ -3314,7 +3296,7 @@ public class TalkBackService extends AccessibilityService
         }
         TouchInteractionMonitor touchInteractionMonitor =
             new TouchInteractionMonitor(
-                context, touchInteractionController, this, primesController);
+                context, touchInteractionController, this);
         touchInteractionMonitor.setMultiFingerGesturesEnabled(true);
         touchInteractionMonitor.setTwoFingerPassthroughEnabled(true);
         touchInteractionMonitor.setServiceHandlesDoubleTap(true);

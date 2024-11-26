@@ -28,8 +28,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
-import com.google.android.accessibility.talkback.PrimesController;
-import com.google.android.accessibility.talkback.PrimesController.TimerAction;
 import com.google.android.accessibility.talkback.actor.helper.FocusActorHelper;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenState;
@@ -83,7 +81,6 @@ public class FocusActorForScreenStateChange {
 
   private Pipeline.FeedbackReturner pipeline;
   private ActorState actorState;
-  private final PrimesController primesController;
 
   private final InputMethodMonitor inputMethodMonitor;
   private final FocusFinder focusFinder;
@@ -96,9 +93,7 @@ public class FocusActorForScreenStateChange {
   public FocusActorForScreenStateChange(
       @NonNull AccessibilityService service,
       @NonNull InputMethodMonitor inputMethodMonitor,
-      @NonNull FocusFinder focusFinder,
-      @NonNull PrimesController primesController) {
-    this.primesController = primesController;
+      @NonNull FocusFinder focusFinder) {
     this.focusFinder = focusFinder;
     this.service = service;
     this.inputMethodMonitor = inputMethodMonitor;
@@ -193,7 +188,6 @@ public class FocusActorForScreenStateChange {
     if (lastFocusAction == null) {
       return false;
     }
-    long startTime = primesController.getTime();
 
     AccessibilityNodeInfoCompat nodeToRestoreFocus =
         FocusActionRecord.getFocusableNodeFromFocusRecord(root, focusFinder, lastFocusAction);
@@ -223,8 +217,7 @@ public class FocusActorForScreenStateChange {
       screenState.consumeInterpretFirstTimeWhenWakeUp();
     }
     if (success) {
-      primesController.recordDuration(
-          TimerAction.INITIAL_FOCUS_RESTORE, startTime, primesController.getTime());
+
     }
 
     return success;
@@ -252,7 +245,6 @@ public class FocusActorForScreenStateChange {
     if (nodeForSync == null) {
       return false;
     }
-    long startTime = primesController.getTime();
 
     boolean firstTime = screenState.isInterpretFirstTimeWhenWakeUp();
     boolean forceMuteFeedback =
@@ -269,8 +261,7 @@ public class FocusActorForScreenStateChange {
       screenState.consumeInterpretFirstTimeWhenWakeUp();
     }
     if (success) {
-      primesController.recordDuration(
-          TimerAction.INITIAL_FOCUS_FOLLOW_INPUT, startTime, primesController.getTime());
+
     }
 
     return success;
@@ -365,7 +356,6 @@ public class FocusActorForScreenStateChange {
     if (root == null) {
       return false;
     }
-    long startTime = primesController.getTime();
 
     @Nullable CharSequence windowTitle = screenState.getWindowTitle(currentActiveWindow.getId());
 
@@ -437,8 +427,7 @@ public class FocusActorForScreenStateChange {
       screenState.consumeInterpretFirstTimeWhenWakeUp();
     }
     if (success) {
-      primesController.recordDuration(
-          TimerAction.INITIAL_FOCUS_FIRST_CONTENT, startTime, primesController.getTime());
+
     }
 
     return success;
