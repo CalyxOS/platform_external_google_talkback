@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.logging;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import com.google.android.accessibility.talkback.PrimesController;
 import com.google.android.accessibility.utils.LatencyTracker;
 import com.google.android.accessibility.utils.Performance.EventData;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.FailoverTtsListener;
@@ -27,13 +26,12 @@ import com.google.android.accessibility.utils.output.FailoverTextToSpeech.Uttera
 import com.google.android.libraries.accessibility.utils.concurrent.HandlerExecutor;
 import java.util.concurrent.Executor;
 
-/** Logs the event-based latency via {@link PrimesController}. */
+/** Logs the event-based latency */
 public class EventLatencyLogger implements LatencyTracker, FailoverTtsListener {
 
   private final Executor executor;
 
-  public EventLatencyLogger(
-      PrimesController primesController, Context context, SharedPreferences prefs) {
+  public EventLatencyLogger(Context context, SharedPreferences prefs) {
     executor = new HandlerExecutor(new Handler(context.getMainLooper()));
   }
 

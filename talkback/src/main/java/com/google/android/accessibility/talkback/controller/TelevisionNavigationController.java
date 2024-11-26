@@ -48,8 +48,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
-import com.google.android.accessibility.talkback.PrimesController;
-import com.google.android.accessibility.talkback.PrimesController.TimerAction;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.TvNavigation;
@@ -105,7 +103,6 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
   private final TalkBackService service;
   private final AccessibilityFocusMonitor accessibilityFocusMonitor;
   private final InputMethodMonitor inputMethodMonitor;
-  private final PrimesController primesController;
   private final Pipeline.FeedbackReturner pipeline;
   private final BroadcastReceiver treeDebugBroadcastReceiver =
       new BroadcastReceiver() {
@@ -150,7 +147,6 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
       @NonNull TalkBackService service,
       @NonNull AccessibilityFocusMonitor accessibilityFocusMonitor,
       @NonNull InputMethodMonitor inputMethodMonitor,
-      @NonNull PrimesController primesController,
       @NonNull ListMenuManager listMenuManager,
       Pipeline.@NonNull FeedbackReturner pipeline,
       boolean useHandlerThread) {
@@ -158,7 +154,6 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.inputMethodMonitor = inputMethodMonitor;
     this.pipeline = pipeline;
-    this.primesController = primesController;
     this.useHandlerThread = useHandlerThread;
     this.listMenuManager = listMenuManager;
 
@@ -304,10 +299,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
             if (eventId != null) {
               // We use keyEvent.getEventTime() as starting point because we don't know how long the
               // message was enqueued before onKeyEvent() has started.
-              primesController.recordDuration(
-                  TimerAction.DPAD_NAVIGATION,
-                  eventId.getEventTimeMs(),
-                  SystemClock.uptimeMillis());
+
             }
           }
         }

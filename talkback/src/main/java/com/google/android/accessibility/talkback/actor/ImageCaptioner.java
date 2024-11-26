@@ -17,14 +17,6 @@
 package com.google.android.accessibility.talkback.actor;
 
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.MUTE_NEXT_FOCUS;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_ICON_LABEL_FAILED;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_ICON_LABEL_SUCCEED;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_IMAGE_DESCRIPTION_FAILED;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_IMAGE_DESCRIPTION_SUCCEED;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_IMAGE_PROCESS_BLOCK_OVERLAY;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_OCR_FAILED;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.IMAGE_CAPTION_OCR_SUCCEED;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.LATENCY_BETWEEN_SCREENSHOT_CAPTURE_REQUEST;
 import static com.google.android.accessibility.talkback.actor.ImageCaptioner.CaptionNodeType.IMAGE;
 import static com.google.android.accessibility.talkback.actor.ImageCaptioner.CaptionNodeType.NONE;
 import static com.google.android.accessibility.talkback.actor.ImageCaptioner.CaptionNodeType.UNLABELLED_VIEW;
@@ -92,7 +84,6 @@ import com.google.android.accessibility.talkback.FeatureFlagReader;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Feedback.TriggerIntent.Action;
 import com.google.android.accessibility.talkback.Pipeline;
-import com.google.android.accessibility.talkback.PrimesController;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.gemini.GeminiOptInDialog;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
@@ -106,7 +97,6 @@ import com.google.android.accessibility.talkback.dynamicfeature.ModuleDownloadPr
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.icondetection.IconAnnotationsDetectorFactory;
 import com.google.android.accessibility.talkback.imagecaption.CaptionRequest;
-import com.google.android.accessibility.talkback.imagecaption.CharacterCaptionRequest;
 import com.google.android.accessibility.talkback.imagecaption.IconDetectionRequest;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.AutomaticImageCaptioningState;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.DownloadDialogResources;
@@ -192,7 +182,6 @@ public class ImageCaptioner extends Handler
   private final ImageCaptionStorage imageCaptionStorage;
   private final AccessibilityFocusMonitor accessibilityFocusMonitor;
   private final TalkBackAnalytics analytics;
-  private final PrimesController primesController;
   private final IconDetectionModuleDownloadPrompter iconDetectionModuleDownloadPrompter;
   @VisibleForTesting @Nullable IconAnnotationsDetector iconAnnotationsDetector;
   private boolean iconAnnotationsDetectorStarted = false;
@@ -211,8 +200,6 @@ public class ImageCaptioner extends Handler
   private int requestId = 0;
 
   private final RequestList<ScreenshotCaptureRequest> screenshotRequests;
-  private final RequestList<CharacterCaptionRequest> characterCaptionRequests =
-      new RequestList<>(CAPTION_REQUEST_CAPACITY);
   private final RequestList<IconDetectionRequest> iconDetectionRequests =
       new RequestList<>(CAPTION_REQUEST_CAPACITY);
   private final RequestList<ImageDescriptionRequest> imageDescriptionRequests =
@@ -230,8 +217,7 @@ public class ImageCaptioner extends Handler
       IconDetectionModuleDownloadPrompter iconDetectionModuleDownloadPrompter,
       ImageDescriptionModuleDownloadPrompter imageDescriptionModuleDownloadPrompter,
       AccessibilityFocusMonitor accessibilityFocusMonitor,
-      TalkBackAnalytics analytics,
-      PrimesController primesController) {
+      TalkBackAnalytics analytics) {
     super(Looper.myLooper());
     this.service = service;
     prefs = SharedPreferencesUtils.getSharedPreferences(service);
@@ -240,7 +226,6 @@ public class ImageCaptioner extends Handler
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.captionResults = new HashMap<>();
     this.analytics = analytics;
-    this.primesController = primesController;
     this.iconDetectionModuleDownloadPrompter = iconDetectionModuleDownloadPrompter;
     this.imageDescriptionModuleDownloadPrompter = imageDescriptionModuleDownloadPrompter;
     initialize();
@@ -250,8 +235,7 @@ public class ImageCaptioner extends Handler
       AccessibilityService service,
       ImageCaptionStorage imageCaptionStorage,
       AccessibilityFocusMonitor accessibilityFocusMonitor,
-      TalkBackAnalytics analytics,
-      PrimesController primesController) {
+      TalkBackAnalytics analytics) {
     super(Looper.myLooper());
     this.service = service;
     prefs = SharedPreferencesUtils.getSharedPreferences(service);
@@ -261,7 +245,6 @@ public class ImageCaptioner extends Handler
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.captionResults = new HashMap<>();
     this.analytics = analytics;
-    this.primesController = primesController;
     Downloader downloader = DownloaderFactory.create(service);
     downloader.updateAllDownloadStatus();
     iconDetectionModuleDownloadPrompter =
@@ -1273,8 +1256,6 @@ public class ImageCaptioner extends Handler
 
   @VisibleForTesting
   void onScreenshotCapturePending(boolean scheduled, Duration intervalTime) {
-    primesController.recordDuration(
-        LATENCY_BETWEEN_SCREENSHOT_CAPTURE_REQUEST, intervalTime.toMillis());
     if (scheduled) {
       return;
     }
@@ -1288,7 +1269,6 @@ public class ImageCaptioner extends Handler
   void onCharacterCaptionFinish(
       CaptionRequest request, AccessibilityNode node, Result result, boolean isUserRequested) {
     if (request.getDurationMillis() != INVALID_DURATION) {
-      primesController.recordDuration(IMAGE_CAPTION_OCR_SUCCEED, request.getDurationMillis());
     }
     analytics.onImageCaptionEvent(IMAGE_CAPTION_EVENT_OCR_PERFORM_SUCCEED);
     LogUtils.v(
@@ -1297,7 +1277,6 @@ public class ImageCaptioner extends Handler
             + StringBuilderUtils.joinFields(
                 StringBuilderUtils.optionalSubObj("result", result.text()),
                 StringBuilderUtils.optionalSubObj("node", node)));
-    characterCaptionRequests.performNextRequest();
 
     handleResult(request.getRequestId(), node, result, isUserRequested);
     imageCaptionStorage.updateCharacterCaptionResult(node, result);
@@ -1306,36 +1285,14 @@ public class ImageCaptioner extends Handler
   @VisibleForTesting
   void addCaptionRequest(
       int id, AccessibilityNodeInfoCompat node, Bitmap screenCapture, boolean isUserRequested) {
-    characterCaptionRequests.addRequest(
-        new CharacterCaptionRequest(
-            id,
-            service,
-            node,
-            screenCapture,
-            /* onFinishListener= */ this::onCharacterCaptionFinish,
-            /* onErrorListener= */ (errorRequest, errorNode, errorCode, userRequest) -> {
-              if (errorRequest.getDurationMillis() != INVALID_DURATION) {
-                primesController.recordDuration(
-                    IMAGE_CAPTION_OCR_FAILED, errorRequest.getDurationMillis());
-              }
-              analytics.onImageCaptionEvent(IMAGE_CAPTION_EVENT_OCR_PERFORM_FAIL);
-              LogUtils.v(TAG, "onError(), error= %s", Request.errorName(errorCode));
-              characterCaptionRequests.performNextRequest();
-              handleResult(
-                  errorRequest.getRequestId(),
-                  AccessibilityNode.takeOwnership(node),
-                  Result.create(OCR, /* result= */ null),
-                  userRequest);
-            },
-            isUserRequested));
+
   }
 
   @VisibleForTesting
   void onIconDetectionFinish(
       CaptionRequest request, AccessibilityNode node, Result result, boolean isUserRequested) {
     if (request.getDurationMillis() != INVALID_DURATION) {
-      primesController.recordDuration(
-          IMAGE_CAPTION_ICON_LABEL_SUCCEED, request.getDurationMillis());
+
     }
     analytics.onImageCaptionEvent(IMAGE_CAPTION_EVENT_ICON_DETECT_SUCCEED);
     LogUtils.v(TAG, "onIconDetectionFinish() result=%s node=%s", result.text(), node);
@@ -1358,8 +1315,7 @@ public class ImageCaptioner extends Handler
             /* onFinishListener= */ this::onIconDetectionFinish,
             /* onErrorListener= */ (errorRequest, errorNode, errorCode, userRequest) -> {
               if (errorRequest.getDurationMillis() != INVALID_DURATION) {
-                primesController.recordDuration(
-                    IMAGE_CAPTION_ICON_LABEL_FAILED, errorRequest.getDurationMillis());
+;
               }
               analytics.onImageCaptionEvent(IMAGE_CAPTION_EVENT_ICON_DETECT_FAIL);
               LogUtils.v(TAG, "onError(), error=%s", Request.errorName(errorCode));
@@ -1376,8 +1332,7 @@ public class ImageCaptioner extends Handler
   private void onImageDescriptionFinish(
       CaptionRequest request, AccessibilityNode node, Result result, boolean isUserRequested) {
     if (request.getDurationMillis() != INVALID_DURATION) {
-      primesController.recordDuration(
-          IMAGE_CAPTION_IMAGE_DESCRIPTION_SUCCEED, request.getDurationMillis());
+
     }
     analytics.onImageCaptionEvent(IMAGE_CAPTION_EVENT_IMAGE_DESCRIBE_SUCCEED);
     LogUtils.v(
@@ -1405,8 +1360,7 @@ public class ImageCaptioner extends Handler
             /* onFinishListener= */ this::onImageDescriptionFinish,
             /* onErrorListener= */ (errorRequest, errorNode, errorCode, userRequest) -> {
               if (errorRequest.getDurationMillis() != INVALID_DURATION) {
-                primesController.recordDuration(
-                    IMAGE_CAPTION_IMAGE_DESCRIPTION_FAILED, errorRequest.getDurationMillis());
+
               }
               analytics.onImageCaptionEvent(IMAGE_CAPTION_EVENT_IMAGE_DESCRIBE_FAIL);
               LogUtils.v(TAG, "onError(), error=%s", Request.errorName(errorCode));
@@ -1495,14 +1449,13 @@ public class ImageCaptioner extends Handler
   @VisibleForTesting
   void clearRequests() {
     screenshotRequests.clear();
-    characterCaptionRequests.clear();
     iconDetectionRequests.clear();
     captionResults.clear();
   }
 
   @VisibleForTesting
   int getWaitingCharacterCaptionRequestSize() {
-    return characterCaptionRequests.getWaitingRequestSize();
+    return 0;
   }
 
   @VisibleForTesting
@@ -1708,7 +1661,6 @@ public class ImageCaptioner extends Handler
       }
       LogUtils.w(TAG, "Caption request is timeout.");
       screenshotRequests.clear();
-      characterCaptionRequests.clear();
       iconDetectionRequests.clear();
       imageDescriptionRequests.clear();
       captionResults.forEach((key, value) -> value.recycleAndClearScreenshots());
@@ -1723,8 +1675,6 @@ public class ImageCaptioner extends Handler
 
     long startTime = SystemClock.uptimeMillis();
     blockedScreenCapture = blockOverlaps(root, node, screenCapture);
-    primesController.recordDuration(
-        IMAGE_CAPTION_IMAGE_PROCESS_BLOCK_OVERLAY, startTime, SystemClock.uptimeMillis());
     if (blockedScreenCapture == null) {
       blockedScreenCapture = screenCapture;
     } else {
