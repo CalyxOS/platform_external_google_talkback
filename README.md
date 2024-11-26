@@ -7,7 +7,7 @@ see
 
 ### How to Build
 
-To build TalkBack, run ./build.sh, which will produce an apk file.
+To build TalkBack, run ./gradlew assemble, which will produce an apk file.
 
 ### How to Install
 
