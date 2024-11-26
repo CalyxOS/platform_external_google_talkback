@@ -16,8 +16,6 @@
 
 package com.google.android.accessibility.talkback.actor.gemini;
 
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.GEMINI_ON_DEVICE_RESPONSE_LATENCY;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.GEMINI_RESPONSE_LATENCY;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
 import android.content.Context;
@@ -28,7 +26,6 @@ import android.os.SystemClock;
 import androidx.annotation.StringRes;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
-import com.google.android.accessibility.talkback.PrimesController;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.gemini.AiCoreEndpoint.AiFeatureDownloadCallback;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
@@ -107,7 +104,6 @@ public class GeminiActor {
   private final AiCoreEndpoint aiCoreEndpoint;
   private Pipeline.FeedbackReturner pipeline;
   private final TalkBackAnalytics analytics;
-  private final PrimesController primesController;
   // Record the start time of Gemini request, with which TalkBack can measure the latency when the
   // Gemini response is received.
   private long startTime;
@@ -143,12 +139,10 @@ public class GeminiActor {
   public GeminiActor(
       Context context,
       TalkBackAnalytics analytics,
-      PrimesController primesController,
       GeminiEndpoint geminiEndpoint,
       AiCoreEndpoint aiCoreEndpoint) {
     this.context = context;
     this.analytics = analytics;
-    this.primesController = primesController;
     this.geminiEndpoint = geminiEndpoint;
     this.mainHandler = new Handler(context.getMainLooper());
     this.progressToneDelayed =
@@ -275,12 +269,9 @@ public class GeminiActor {
           responseImageCaptionResult(requestId, text, /* isSuccess= */ true, manualTrigger);
         }
         analytics.onGeminiEvent(TalkBackAnalytics.GEMINI_SUCCESS);
-        PrimesController.TimerAction action = GEMINI_RESPONSE_LATENCY;
         if (requestIdMap.containsKey(requestId)
             && Objects.equals(requestIdMap.get(requestId), Boolean.FALSE)) {
-          action = GEMINI_ON_DEVICE_RESPONSE_LATENCY;
         }
-        primesController.recordDuration(action, startTime, SystemClock.uptimeMillis());
         break;
       case ERROR_PARSING_RESULT:
         responseImageCaptionResult(

@@ -27,7 +27,6 @@ import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_POINTER_DOWN;
 import static android.view.MotionEvent.INVALID_POINTER_ID;
-import static com.google.android.accessibility.talkback.PrimesController.TimerAction.TOUCH_CONTROLLER_STATE_CHANGE_LATENCY;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_FAKED_SPLIT_TYPING;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TOUCH_EXPLORE;
 
@@ -151,7 +150,6 @@ public class TouchInteractionMonitor
   private EventId eventId;
   private final int displayId;
   private final boolean handleStateChangeInMainThread;
-  private final PrimesController primesController;
   private final Queue<CallerInfo> callerInfos;
 
   private static class CallerInfo {
@@ -174,13 +172,11 @@ public class TouchInteractionMonitor
   public TouchInteractionMonitor(
       Context context,
       TouchInteractionController controller,
-      TalkBackService service,
-      PrimesController primesController) {
+      TalkBackService service) {
     this.context = context;
     this.controller = controller;
     receivedPointerTracker = new ReceivedPointerTracker();
     this.service = service;
-    this.primesController = primesController;
     handleStateChangeInMainThread = FeatureFlagReader.handleStateChangeInMainThread(context);
     displayId = context.getDisplay().getDisplayId();
     mainHandler = new Handler(context.getMainLooper());
@@ -808,8 +804,7 @@ public class TouchInteractionMonitor
     if (handleStateChangeInMainThread) {
       long currentTime = SystemClock.uptimeMillis();
       if (currentTime >= requestStartTime) {
-        primesController.recordDuration(
-            TOUCH_CONTROLLER_STATE_CHANGE_LATENCY, requestStartTime, currentTime);
+
       }
     }
   }

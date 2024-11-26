@@ -7,8 +7,6 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
-import android.support.wearable.input.WearableButtons;
-import android.support.wearable.input.WearableButtons.ButtonInfo;
 import android.util.Pair;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -118,29 +116,7 @@ public class TalkBackService extends com.google.android.accessibility.talkback.T
     if (!FormFactorUtils.getInstance().isAndroidWear()) {
       return volumeButtons;
     }
-    if (WearableButtons.getButtonCount(context) != NUM_STEM_BUTTONS_REQUIRED) {
-      return volumeButtons;
-    }
-    ButtonInfo keyCodeStem1Info = WearableButtons.getButtonInfo(context, KeyEvent.KEYCODE_STEM_1);
-    ButtonInfo keyCodeStem2Info = WearableButtons.getButtonInfo(context, KeyEvent.KEYCODE_STEM_2);
-    if (keyCodeStem1Info == null || keyCodeStem2Info == null) {
-      return volumeButtons;
-    }
-    float x1 = keyCodeStem1Info.getX();
-    float x2 = keyCodeStem2Info.getX();
-    float y1 = keyCodeStem1Info.getY();
-    float y2 = keyCodeStem2Info.getY();
-    // Check the X-position is on the same side.
-    double center = context.getResources().getDisplayMetrics().widthPixels * 0.5;
-    if (!(x1 > center && x2 > center) || (x1 < center && x2 < center)) {
-      return volumeButtons;
-    }
-    // Check the Y-position to determine the top and bottom button.
-    if (y1 > y2) {
-      return new Pair<>(KeyEvent.KEYCODE_STEM_2, KeyEvent.KEYCODE_STEM_1);
-    } else {
-      return new Pair<>(KeyEvent.KEYCODE_STEM_1, KeyEvent.KEYCODE_STEM_2);
-    }
+    return null;
   }
 
   /** Change only the Code and keep all the other values in KeyEvent. */
