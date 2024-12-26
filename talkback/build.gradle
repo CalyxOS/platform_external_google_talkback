@@ -10,8 +10,12 @@ dependencies {
 }
 
 android {
+    namespace "com.google.android.accessibility.talkback"
     defaultConfig {
         buildConfigField("String", "APPLICATION_ID", '"' + talkbackApplicationId + '"')
         buildConfigField("String", "GEMINI_API_KEY", "\"\"")
+    }
+    buildFeatures {
+        buildConfig = true
     }
 }
