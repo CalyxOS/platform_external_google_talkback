@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4ba53273_b7bce4ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000065
+      },
+      "writtenOn": "2024-12-26T09:59:24Z",
+      "side": 1,
+      "message": "Change Gradle JDK to 17. Supporting 21 is too much work.",
+      "revId": "0236203fdfda08a2293b06fbdb55d3dfa5e977c6",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
