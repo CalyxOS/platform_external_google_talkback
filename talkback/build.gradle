@@ -14,4 +14,7 @@ android {
         buildConfigField("String", "APPLICATION_ID", '"' + talkbackApplicationId + '"')
         buildConfigField("String", "GEMINI_API_KEY", "\"\"")
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }

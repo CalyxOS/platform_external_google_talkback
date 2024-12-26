@@ -12,4 +12,7 @@ android {
     defaultConfig {
         buildConfigField("String", "TALKBACK_APPLICATION_ID", '"' + talkbackApplicationId + '"')
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }

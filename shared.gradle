@@ -28,6 +28,9 @@ android {
             dimension "target"
         }
     }
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 configurations.all {
