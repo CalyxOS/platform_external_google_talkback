@@ -490,7 +490,7 @@ public final class CollectionStateFeedbackUtils {
         getCollectionLevel(collectionState, context),
         tableItemRowIndex >= 0
             ? context.getString(
-                R.string.template_viewpager_index_count,
+                com.google.android.accessibility.utils.R.string.template_viewpager_index_count,
                 tableItemRowIndex + 1,
                 collectionState.getCollectionRowCount())
             : null);
@@ -508,7 +508,7 @@ public final class CollectionStateFeedbackUtils {
         getCollectionLevel(collectionState, context),
         tableItemColumnIndex >= 0
             ? context.getString(
-                R.string.template_viewpager_index_count,
+                com.google.android.accessibility.utils.R.string.template_viewpager_index_count,
                 tableItemColumnIndex + 1,
                 collectionState.getCollectionColumnCount())
             : null);

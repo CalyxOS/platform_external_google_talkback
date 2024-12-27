@@ -26,7 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SeekBarPreference;
-import com.google.android.accessibility.talkback.R;
+
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Customized SeekBarPreference to match the ones in system settings. */
@@ -46,7 +46,7 @@ public class AccessibilitySeekBarPreference extends SeekBarPreference {
 
     // Make talkback UI consistent with SeekBarPreference in system settings.
     final TextView titleView = (TextView) holder.findViewById(android.R.id.title);
-    final SeekBar seekbar = (SeekBar) holder.findViewById(R.id.seekbar);
+    final SeekBar seekbar = (SeekBar) holder.findViewById(androidx.preference.R.id.seekbar);
     if (titleView != null && seekbar != null) {
       final CharSequence title = getTitle();
       if (!TextUtils.isEmpty(title)) {
