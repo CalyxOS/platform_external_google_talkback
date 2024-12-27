@@ -16,6 +16,24 @@
       "message": "Change Gradle JDK to 17. Supporting 21 is too much work.",
       "revId": "0236203fdfda08a2293b06fbdb55d3dfa5e977c6",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98309fe6_3a9a32f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-27T08:08:40Z",
+      "side": 1,
+      "message": "@olivercscott@gmail.com did you see this? Does it work now?\n\nI also see a lot of unrelated and unnecessary changes in this commit, which is only going to make merging harder.\n\nChanges such as compileSdk should be in their own change.\n\nA lot of files don\u0027t have actual changes - just things being moved around. Should skip.\n\nThe commit message is no longer accurate, since it\u0027s also bumping dependency versions. That should be it\u0027s own commit too.",
+      "parentUuid": "4ba53273_b7bce4ac",
+      "revId": "0236203fdfda08a2293b06fbdb55d3dfa5e977c6",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ],
   "submitRequirementResults": [
