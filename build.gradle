@@ -13,20 +13,20 @@ dependencies {
 }
 
 buildscript {
-    ext.kotlin_version = "1.8.0"
+    ext.kotlin_version = "2.1.0"
     repositories {
         mavenCentral()
         google()
     }
     dependencies {
-        classpath 'org.aspectj:aspectjtools:1.8.1'
+        classpath 'org.aspectj:aspectjtools:1.9.22.1'
         // Here we set the version of the Android Gradle Plugin used by this
         // script. It is best to use as new a version as possible, but beware
         // that each version of the Gradle Plugin requires that the version of
         // Gradle (used to drive the build) be a certain version or above. The
         // correspondence is tracked here:
         // https://developer.android.com/build/releases/gradle-plugin#updating-gradle
-        classpath 'com.android.tools.build:gradle:7.2.2'
+        classpath 'com.android.tools.build:gradle:8.7.3'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -39,6 +39,7 @@ allprojects {
 }
 
 android {
+    namespace talkbackApplicationId
     defaultConfig {
         applicationId talkbackApplicationId
         versionName talkbackVersionName + "-" + BUILD_TIMESTAMP
@@ -47,13 +48,9 @@ android {
         testInstrumentationRunner 'android.test.InstrumentationTestRunner'
         multiDexEnabled true
     }
-    packagingOptions {
-        exclude 'LICENSE'
-        exclude 'README'
-    }
-    lintOptions {
-        checkReleaseBuilds false
+    lint {
         abortOnError false
+        checkReleaseBuilds false
     }
     productFlavors {
         phone {
@@ -62,6 +59,11 @@ android {
         wear {
             dimension "target"
             versionNameSuffix "-wear"
+        }
+    }
+    packagingOptions {
+        resources {
+            excludes += ['LICENSE', 'README']
         }
     }
 }
