@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d63f4de3_c4330df4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2024-12-27T08:09:29Z",
+      "side": 1,
+      "message": "It\u0027d be good to explain here why is this needed.\n\nDoes it not build otherwise? Does it not run otherwise? Something else?",
+      "revId": "22a5d7e8cf532bb01a4c7e7ccafb4a09c8af6b7f",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
