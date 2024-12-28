@@ -24,7 +24,8 @@
   </queries>
 
   <application
-     android:name="com.google.android.accessibility.talkback.TalkBackApplication"
-     />
+      android:name="com.google.android.accessibility.talkback.TalkBackApplication"
+      android:icon="@mipmap/calyx_ic_launcher"
+      android:label="@string/calyx_app_name" />
 
 </manifest>
