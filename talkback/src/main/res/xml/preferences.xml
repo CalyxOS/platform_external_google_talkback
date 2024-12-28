@@ -94,10 +94,12 @@
         android:title="@string/title_pref_category_tutorial" />
     <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
         android:key="@string/pref_help_and_feedback_key"
-        android:title="@string/title_pref_help_and_feedback" />
+        android:title="@string/title_pref_help_and_feedback"
+        app:isPreferenceVisible="false" />
     <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
         android:key="@string/pref_gup_key"
         android:summary="@string/subtitle_pref_gup"
-        android:title="@string/title_pref_gup" />
+        android:title="@string/title_pref_gup"
+        app:isPreferenceVisible="false" />
   </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>
