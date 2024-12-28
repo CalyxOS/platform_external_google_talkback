@@ -59,7 +59,7 @@
             android:icon="@drawable/icon"
             android:name="com.google.android.marvin.talkback.TalkBackService"
             android:exported="true"
-            android:label="@string/talkback_title"
+            android:label="@string/calyx_app_name"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             android:settingsActivity="com.android.talkback.TalkBackPreferencesActivity"
             android:directBootAware="true">
