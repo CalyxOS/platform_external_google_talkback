@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
         android:key="@string/pref_new_feature_in_talkback_entry_point_key"
         android:title="@string/new_feature_in_talkback_title" />
@@ -80,6 +81,7 @@
             android:fragment="com.google.android.accessibility.talkback.preference.base.AdvancedSettingFragment" />
         <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
             android:key="@string/pref_play_store_key"
-            android:title="@string/title_pref_play_store"/>
+            android:title="@string/title_pref_play_store"
+            app:isPreferenceVisible="false" />
     </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>
