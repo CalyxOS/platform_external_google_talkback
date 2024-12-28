@@ -83,7 +83,8 @@
         android:title="@string/title_pref_advanced_settings" />
     <com.google.android.accessibility.utils.preference.AccessibilitySuitePreference
         android:key="@string/pref_play_store_key"
-        android:title="@string/title_pref_play_store" />
+        android:title="@string/title_pref_play_store"
+        app:isPreferenceVisible="false" />
   </com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.utils.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_tutorial_and_help_key"
