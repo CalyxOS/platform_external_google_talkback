@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91b01d06_a9c92cea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2024-12-30T15:55:29Z",
+      "side": 1,
+      "message": "Do we want to replace it with our own directly in here? Users who\u0027d use this may not easily be able to find CalyxOS contact info outside of their device",
+      "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
