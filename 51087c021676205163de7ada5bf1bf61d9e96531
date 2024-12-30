@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff1b196e_3df0d934",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000002
+      },
+      "writtenOn": "2024-12-30T15:54:05Z",
+      "side": 1,
+      "message": "Would this apply to Aurora Store?",
+      "revId": "51087c021676205163de7ada5bf1bf61d9e96531",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    }
+  ]
+}
