@@ -16,6 +16,24 @@
       "message": "What\u0027s the concern regarding conflicts?",
       "revId": "9e4747545330577926c5a4937540d719379738aa",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2d0bb51_23424fd3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000065
+      },
+      "writtenOn": "2024-12-31T04:07:47Z",
+      "side": 1,
+      "message": "I think it is fine as there would hopefully be no changes from Google\u0027s side. I am though worried about if they will change something about overriding it somewhere but we can figure it out when it comes to that.",
+      "parentUuid": "52fd88cc_414b8037",
+      "revId": "9e4747545330577926c5a4937540d719379738aa",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
