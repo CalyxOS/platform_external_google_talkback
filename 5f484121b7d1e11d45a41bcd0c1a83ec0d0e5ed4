@@ -16,6 +16,24 @@
       "message": "Do we want to replace it with our own directly in here? Users who\u0027d use this may not easily be able to find CalyxOS contact info outside of their device",
       "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a155ab46_99a1ed33",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-03T20:22:31Z",
+      "side": 1,
+      "message": "That is true, and it\u0027s a good idea in general, but it\u0027s also unrelated to talkback, and more of a general thing. We\u0027re not providing help and feedback just for talkback, but for the entire OS.\n\nHaving something directly on device, separately, would be a good idea. The where and how are tbd. There may already be an issue about it.\n\nHaving it just in talkback but not anywhere else doesn\u0027t make sense for us, especially when we\u0027re handling everything in a central place, by the same people.\n\nThis change can go in now, a replacement if any later on can be added separately.",
+      "parentUuid": "91b01d06_a9c92cea",
+      "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
