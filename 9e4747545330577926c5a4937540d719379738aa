@@ -34,6 +34,24 @@
       "parentUuid": "52fd88cc_414b8037",
       "revId": "9e4747545330577926c5a4937540d719379738aa",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f094a113_f42358c9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-03T20:19:17Z",
+      "side": 1,
+      "message": "Also, when I mentioned conflicts in the ticket / other packages where this change was made - it was because we\u0027re taking an existing app, and signing it with a different (our key). Keeping the same package name means app stores show it as installed but are unable to update, causing a conflict.\n\nChanging package name when changing the key like this / forking it avoids that.",
+      "parentUuid": "f2d0bb51_23424fd3",
+      "revId": "9e4747545330577926c5a4937540d719379738aa",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
