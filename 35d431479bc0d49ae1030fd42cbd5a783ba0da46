@@ -34,6 +34,24 @@
       "parentUuid": "18cbb696_623f5171",
       "revId": "35d431479bc0d49ae1030fd42cbd5a783ba0da46",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33b41e77_2de0e36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-03T20:23:53Z",
+      "side": 1,
+      "message": "I would say some of what I said at https://review.calyxos.org/c/CalyxOS/platform_external_google_talkback/+/33742/comments/91b01d06_a9c92cea\n\nIt should be a separate thing, and isn\u0027t something that\u0027s just restricted to talkback, but a general CalyxOS thing - and thus should be handled on it\u0027s own. Can discuss further in an issue / chat / meeting.",
+      "parentUuid": "b7a0b862_1b52cace",
+      "revId": "35d431479bc0d49ae1030fd42cbd5a783ba0da46",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
