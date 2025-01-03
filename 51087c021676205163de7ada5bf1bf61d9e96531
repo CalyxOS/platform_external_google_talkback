@@ -34,6 +34,24 @@
       "parentUuid": "ff1b196e_3df0d934",
       "revId": "51087c021676205163de7ada5bf1bf61d9e96531",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c6938dfb_239f522c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2025-01-03T20:20:28Z",
+      "side": 1,
+      "message": "For an app forked and included in CalyxOS, it doesn\u0027t make sense to have a Play Store link, when this codebase is not in the Play Store.",
+      "parentUuid": "0b345bf1_dcd857b5",
+      "revId": "51087c021676205163de7ada5bf1bf61d9e96531",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
