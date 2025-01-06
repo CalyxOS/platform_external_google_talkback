@@ -34,6 +34,24 @@
       "parentUuid": "91b01d06_a9c92cea",
       "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0736ffe0_d2fff62c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000121
+      },
+      "writtenOn": "2025-01-06T15:35:06Z",
+      "side": 1,
+      "message": "Not sure if this has further discussions yet. But agree that it is important for us to list our support/feedback channel for CalyxOS native interface. \n\nIs this something discussed with Aysha yet? A good way going forward would be having a checklist of everywhere it is currently listing Google Support (probably not very easy to find out?) that could give us some insights on deploying CalyxOS-native support/feedback channels throughout the OS. \n\nAysha and I discussed the comms channels and flows a little bit, but I believe it needs a more in-depth discussion with Nick/Chirayu\u0027s review. I\u0027m not sure where this is at in terms of priorities allocation. Perhaps Aysha has some updates?",
+      "parentUuid": "a155ab46_99a1ed33",
+      "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
