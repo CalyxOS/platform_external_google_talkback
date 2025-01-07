@@ -52,6 +52,24 @@
       "parentUuid": "a155ab46_99a1ed33",
       "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
       "serverId": "35266860-6252-469c-a67d-185064479fc0"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ecbbf56f_ae5795b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000065
+      },
+      "writtenOn": "2025-01-07T08:03:32Z",
+      "side": 1,
+      "message": "Marking this as resolved to not block it. Added to the pad for discussion.",
+      "parentUuid": "0736ffe0_d2fff62c",
+      "revId": "5f484121b7d1e11d45a41bcd0c1a83ec0d0e5ed4",
+      "serverId": "35266860-6252-469c-a67d-185064479fc0"
     }
   ]
 }
